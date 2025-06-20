@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import com.jcsoftware.desafio_pontos.entities.dtos.InsertPontoDTO;
 import com.jcsoftware.desafio_pontos.entities.dtos.PontoDTO;
 import com.jcsoftware.desafio_pontos.services.PontosService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/points")
 public class PontosController {
@@ -26,7 +29,7 @@ public class PontosController {
 	private PontosService service;
 	
 	@PostMapping()
-	public ResponseEntity<PontoDTO> insert(@RequestBody InsertPontoDTO dto){
+	public ResponseEntity<PontoDTO> insert(@RequestBody @Valid InsertPontoDTO dto){
 		PontoDTO pontoDTO = service.insert(dto);
 	        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 					.buildAndExpand(pontoDTO.id()).toUri();
@@ -40,9 +43,15 @@ public class PontosController {
         return ResponseEntity.ok().body(pontos);
 	}
 	
+	@GetMapping(value="/{id}")
+	public ResponseEntity<PontoDTO> findById(@PathVariable Long id){
+		PontoDTO pontoDTO = service.findById(id);
+		return ResponseEntity.ok().body(pontoDTO);
+	}
+	
 	@GetMapping(value="/near")
-	public ResponseEntity<List<PontoDTO>> find(@RequestParam Long x, @RequestParam Long y){
-		List<PontoDTO> pontos = service.find(x,y);
+	public ResponseEntity<List<PontoDTO>> find(@RequestParam(required=true) Long x, @RequestParam(required=true) Long y,@RequestParam(defaultValue = "10") Long distance){
+		List<PontoDTO> pontos = service.find(x,y,distance);
         return ResponseEntity.ok().body(pontos);
 	}
 }
