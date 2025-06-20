@@ -16,6 +16,8 @@ public class Ponto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	private String name;
+	
 	private Long x;
 	private Long y;
 	
@@ -23,10 +25,10 @@ public class Ponto {
 		
 	}
 
-	public Ponto(Long id, Long x, Long y) {
+	public Ponto(Long id,String name, Long x, Long y) {
 		super();
 		this.id = id;
-		this.x = x;
+		this.name= name;		this.x = x;
 		this.y = y;
 	}
 
@@ -36,6 +38,16 @@ public class Ponto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Long getX() {
