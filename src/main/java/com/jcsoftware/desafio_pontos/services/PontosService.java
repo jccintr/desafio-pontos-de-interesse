@@ -32,4 +32,9 @@ public class PontosService {
 		return new PontoDTO(newPonto);
 	}
 
+	public List<PontoDTO> find(Long x, Long y) {
+		List<Ponto> pontos = repository.findNear(x, y, 10L);
+		return pontos.stream().map(PontoDTO::new).toList();
+	}
+
 }

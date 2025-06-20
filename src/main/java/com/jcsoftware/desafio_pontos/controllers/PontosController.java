@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,7 +18,7 @@ import com.jcsoftware.desafio_pontos.entities.dtos.PontoDTO;
 import com.jcsoftware.desafio_pontos.services.PontosService;
 
 @RestController
-@RequestMapping(value = "/pontos")
+@RequestMapping(value = "/points")
 public class PontosController {
 
 	
@@ -36,6 +37,12 @@ public class PontosController {
 	@GetMapping
 	public ResponseEntity<List<PontoDTO>> findAll(){
 		List<PontoDTO> pontos = service.findAll();
+        return ResponseEntity.ok().body(pontos);
+	}
+	
+	@GetMapping(value="/near")
+	public ResponseEntity<List<PontoDTO>> find(@RequestParam Long x, @RequestParam Long y){
+		List<PontoDTO> pontos = service.find(x,y);
         return ResponseEntity.ok().body(pontos);
 	}
 }
