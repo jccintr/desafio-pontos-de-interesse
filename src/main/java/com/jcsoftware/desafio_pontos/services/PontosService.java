@@ -1,0 +1,25 @@
+package com.jcsoftware.desafio_pontos.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jcsoftware.desafio_pontos.entities.Ponto;
+import com.jcsoftware.desafio_pontos.entities.dtos.PontoDTO;
+import com.jcsoftware.desafio_pontos.repositories.PontosRepository;
+
+@Service
+public class PontosService {
+	
+	@Autowired
+	private PontosRepository repository;
+
+	public List<PontoDTO> findAll() {
+		
+		List<Ponto> pontos = repository.findAll();
+		return pontos.stream().map(PontoDTO::new).toList();
+		
+	}
+
+}
