@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jcsoftware.desafio_pontos.entities.Ponto;
+import com.jcsoftware.desafio_pontos.entities.dtos.InsertPontoDTO;
 import com.jcsoftware.desafio_pontos.entities.dtos.PontoDTO;
 import com.jcsoftware.desafio_pontos.repositories.PontosRepository;
 
@@ -20,6 +21,15 @@ public class PontosService {
 		List<Ponto> pontos = repository.findAll();
 		return pontos.stream().map(PontoDTO::new).toList();
 		
+	}
+
+	public PontoDTO insert(InsertPontoDTO dto) {
+		Ponto newPonto = new Ponto();
+		newPonto.setName(dto.name());
+		newPonto.setX(dto.x());
+		newPonto.setY(dto.y());
+		newPonto = repository.save(newPonto);
+		return new PontoDTO(newPonto);
 	}
 
 }
